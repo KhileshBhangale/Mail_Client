@@ -11,9 +11,14 @@
     css linked file :1
     Modification : Login form changed
     Pre-modified Code : Deleted; 
-
-
 -->
+<!-- Modification 23-5-2020 By Khilesh Bhangale
+    css linked file :0
+    Modification : Mobile responsiveness.
+    Pre-modified Code : Deleted; 
+-->
+
+
 <!DOCTYPE html>
 <html>
 <head>
@@ -26,12 +31,9 @@
 
 	 
 	body {
-
-          
-          width: 100%;
+                 width: 100%;
  		  height: 100%;
  		  
-
 		}
 
 
@@ -39,48 +41,77 @@
 
 		* {box-sizing: border-box;}
 
+/*Modification 23-5-2020 by khilesh Bhangale*/
+
+		/*Header style*/
+
+		* {box-sizing: border-box;}
+
 .header {
   overflow: hidden;
-  
-  padding: 20px 10px;
+  width:100%;
+  height: 50%;
 }
 
-.header a {
+.header-left {
   float: left;
-  color: white;
-  text-align: center;
+  text-align: left;
   padding: 12px;
   text-decoration: none;
   line-height: 25px;
   border-radius: 4px;
+   height:100%;
+  width:50%;
 }
 
-.header a.logo {
+
+.header-left a.logo {
+  
   font-size: 7vw;
   font-weight: bold;
+  color: white;
+  margin-top: 1.5vw;
 }
 
-.header a:hover {
+.header-right a:hover {
   background-color: #ddd;
   
 }
 
 
 .header-right {
+  height:100%;
+  width:50%;
   float: right;
+  text-align: right;
 }
 
-@media screen and (max-width: 500px) {
-  .header a {
-    float: none;
-    display: block;
-    text-align: left;
-  }
-  
-  .header-right {
-    float: none;
-  }
+
+@media screen and (max-width: 600px) {
+.header {
+  overflow: hidden;
+  width:100%; 
 }
+
+.header-left {
+  float: left;
+  text-align: center;
+  padding: 12px;
+  text-decoration: none;
+  line-height: 25px;
+  border-radius: 4px;
+  width:100%;
+ 
+}
+
+.header-right {
+  width:100%;
+  float: left;
+  text-align: center;
+}
+
+}
+/* end Modification 23-5-2020 by khilesh Bhangale*/
 
 
 		/* End Header style*/
@@ -91,19 +122,39 @@
 
 /* Set a style for all buttons */
 .menubtn {
-  background-color: transparent;
+   background-color:#2B2022;
   color: white;
   border: none;
+  text-align: center;
   cursor: pointer;
-  font-size: 1.5vw;
+  font-size: 2vw;
   font-weight: bold;
+  margin: 1vw;
 }
 
 button:hover {
   opacity: 0.8;
 }
+/*Modification 23-5-2020 by khilesh Bhangale*/
+@media screen and (max-width: 600px) {
+	.menubtn {
+  background-color:#2B2022;
+  color: white;
+  border: none;
+  cursor: pointer;
+  font-size: 2vw;
+  font-weight: bold;
+  text-align: center;
+  width: 49%;
+  height: 6vw;
+  padding-left: 1%;
+  padding-right: 1%;
 
+}
 
+}
+
+/*end Modification 23-5-2020 by khilesh Bhangale*/
 /* Center the image and position the close button */
 
 .container {
@@ -187,7 +238,9 @@ span.psw {
 
 
 <div class="header">
+<div class="header-left">
   <a href="#default" class="logo">MYmail.com</a>
+</div>
   <div class="header-right">
     <a> 	
     	<button onclick="document.getElementById('id01').style.display='block'" class="menubtn">Login</button>
@@ -196,14 +249,15 @@ span.psw {
     	<button onclick="document.getElementById('').style.display='block'" class="menubtn">sign up</button>
 
     </a>
-  </div>
+  
 </div>
-
-<div style="padding-left:20px">
+</div>
+<div style="padding-left:2%">
   <h1>India Based Email Service</h1>
   <p></p>
   <p></p>
 </div>
+
 
 
 
@@ -225,12 +279,12 @@ class="close" title="Close Modal">&times;</span>
               </div>
             </div>
             <div class="bottom-content">
-              <form action="#" method="post">
+              <form action="" method="post">
                 <div class="editContent" style="outline: none; cursor: inherit;">
-                   <input type="email" name="email" class="input-form" placeholder="Email" required="required">
+                   <input type="email" name="email" id="email" class="input-form" placeholder="Email" required="required">
                 </div>
                 <div class="editContent" style="outline: none; cursor: inherit;">
-                   <input type="password" name="password" class="input-form" placeholder="Password" required="required">
+                   <input type="password" name="password" id="password" class="input-form" placeholder="Password" required="required">
                 </div>
                 <button type="submit" class="loginhny-btn btn" style="outline: none; cursor: inherit;">Login</button>
               </form>
@@ -265,6 +319,49 @@ window.onclick = function(event) {
 </script>
 <!--/Login Menu Button Script-->
 
-
 </body>
 </html>
+<?php
+
+$host = "localhost";
+$uname = "root";
+$pass = "";
+$dbname = "mail_client";
+$conn = new mysqli($host, $uname, $pass, $dbname);
+if ($conn->connect_error) {
+  die("Connection failed: " . $conn->connect_error);
+
+}
+else
+{
+  if (isset($_POST['email']) && isset($_POST['password'])) {
+  
+    $email = $_POST['email'];
+    $password = $_POST['password'];
+
+  $sql = "SELECT * FROM log WHERE email='$email'";
+  $cred = $conn->query($sql);
+  $result = $cred->fetch_assoc();; 
+
+     if($result['email']==$email && $result['pass']==$password)
+    {
+      echo"Good News";
+    }
+    else{
+      echo "incorrect email or password";
+    }
+    }
+  /* $sql = "INSERT INTO log (email, pass)
+          VALUES ('123@gmail.com','abc')";
+          if ($conn->query($sql) === TRUE) {
+  echo "New record created successfully";
+} else {
+  echo "Error: " . $sql . "<br>" . $conn->error;
+}*/
+
+$conn->close();
+   //$sql = "SELECT Id, Pass FROM log WHERE Id='$email'";
+   //$result = $conn->query($sql);
+}
+?>
+
